@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+typealias Queue = Int
+
+let newQueue = 0
+
+var requestQueue = [Queue]()

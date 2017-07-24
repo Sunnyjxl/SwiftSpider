@@ -7,3 +7,8 @@
 //
 
 import Foundation
+
+enum RequestMethot: Int {
+    case post = 0
+    case get = 1
+}

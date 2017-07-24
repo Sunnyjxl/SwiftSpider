@@ -1,0 +1,14 @@
+disabled_rules: # 禁用指定的规则
+  - file_length
+  - line_length
+  - vertical_whitespace
+  - trailing_whitespace
+  - force_cast
+  - variable_name
+
+excluded: # 你所希望不要检索的路径,SwiftLint会无视掉该路径下的文件
+  - Pods
+
+function_body_length:
+  - 200
+  - 300

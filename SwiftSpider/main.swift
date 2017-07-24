@@ -8,5 +8,14 @@
 
 import Foundation
 
-print("Hello, World!")
+let str = StringSpider()
 
+//str.getHtmlData(url: "http://blog.csdn.net/abcd2686529828/article/details/51323673", method: .get, args: nil) { (data, response, error) in
+//    if error == nil {
+//        print(String(data: data!, encoding: .utf8)!)
+//    }
+//}
+
+while requestQueue.count != 0 {
+    
+}
