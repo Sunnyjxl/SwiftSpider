@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+// 请求队列
 typealias Queue = Int
 
 let newQueue = 0

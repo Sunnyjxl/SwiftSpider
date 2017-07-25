@@ -10,11 +10,20 @@ import Foundation
 
 let str = StringSpider()
 
-//str.getHtmlData(url: "http://blog.csdn.net/abcd2686529828/article/details/51323673", method: .get, args: nil) { (data, response, error) in
-//    if error == nil {
-//        print(String(data: data!, encoding: .utf8)!)
-//    }
-//}
+str.getHtmlData(url: "http://www.c-excellence.com/shcp_m/login.html#", method: .get, args: nil) { (data, _, error) in
+    if error == nil {
+        let text = String(data: data!, encoding: .utf8)
+        print(text!)
+//        print(RegularExpressionUtil.matches(pattern: "(href|src)=\".+\"", text: text!)!)
+        for str in RegularExpressionUtil.matches(pattern: "(href|src)=\"(.*?)\"", text: text!)! {
+            print(str)
+        }
+    }
+}
+
+//let site = SiteSpider()
+
+//site.getSiteData(url: "http://www.c-excellence.com/shcp_m/login.html#", savePath: "/Users/developer/Desktop")
 
 while requestQueue.count != 0 {
     
