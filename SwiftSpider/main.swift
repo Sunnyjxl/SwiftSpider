@@ -15,7 +15,7 @@ str.getHtmlData(url: "http://www.c-excellence.com/shcp_m/login.html#", method: .
         let text = String(data: data!, encoding: .utf8)
         print(text!)
 //        print(RegularExpressionUtil.matches(pattern: "(href|src)=\".+\"", text: text!)!)
-        for str in RegularExpressionUtil.matches(pattern: "(href|src)=\"(.*?)\"", text: text!)! {
+        for str in RegularExpressionUtil.matches(pattern: "(?<=(href|src)=\")[^#]\\S+?(?=\")", text: text!)! {
             print(str)
         }
     }
