@@ -8,23 +8,21 @@
 
 import Foundation
 
-let str = StringSpider()
+//let str = StringSpider()
 
-str.getHtmlData(url: "http://www.c-excellence.com/shcp_m/login.html#", method: .get, args: nil) { (data, _, error) in
-    if error == nil {
-        let text = String(data: data!, encoding: .utf8)
-        print(text!)
-//        print(RegularExpressionUtil.matches(pattern: "(href|src)=\".+\"", text: text!)!)
-        for str in RegularExpressionUtil.matches(pattern: "(?<=(href|src)=\")[^#]\\S+?(?=\")", text: text!)! {
-            print(str)
-        }
-    }
-}
+//str.getHtmlData(url: "http://www.c-excellence.com/shcp_m/login.html#", method: .get, args: nil) { (data, _, error) in
+//    if error == nil {
+//        let text = String(data: data!, encoding: .utf8)
+//        for str in RegularExpressionUtil.matches(pattern: "(?<=(href|src)=\")[^#]\\S+?(?=\")", text: text!)! {
+//            print(str)
+//        }
+//    }
+//}
 
-//let site = SiteSpider()
+let site = SiteSpider()
 
-//site.getSiteData(url: "http://www.c-excellence.com/shcp_m/login.html#", savePath: "/Users/developer/Desktop")
+site.getSiteData(url: "http://www.c-excellence.com/shcp_m/login.html#", savePath: "/Users/developer/Desktop/bbb")
 
-while requestQueue.count != 0 {
-    
+while true {
+//    print(requestQueue.count)
 }
