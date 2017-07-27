@@ -17,6 +17,7 @@
 		8BADAEFF1F222D6900EDE5AB /* UserAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BADAEFE1F222D6900EDE5AB /* UserAgent.swift */; };
 		8BADAF021F22303700EDE5AB /* RequestQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BADAF011F22303700EDE5AB /* RequestQueue.swift */; };
 		8BADAF051F2237F800EDE5AB /* Macro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BADAF041F2237F800EDE5AB /* Macro.swift */; };
+		8BCD8F401F28D05200AB5333 /* FileUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCD8F3F1F28D05200AB5333 /* FileUtil.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +44,7 @@
 		8BADAEFE1F222D6900EDE5AB /* UserAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgent.swift; sourceTree = "<group>"; };
 		8BADAF011F22303700EDE5AB /* RequestQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestQueue.swift; sourceTree = "<group>"; };
 		8BADAF041F2237F800EDE5AB /* Macro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Macro.swift; sourceTree = "<group>"; };
+		8BCD8F3F1F28D05200AB5333 /* FileUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileUtil.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 			children = (
 				8BADAF011F22303700EDE5AB /* RequestQueue.swift */,
 				8B231B631F271F700071E917 /* RegularExpressionUtil.swift */,
+				8BCD8F3F1F28D05200AB5333 /* FileUtil.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				8B231B641F271F700071E917 /* RegularExpressionUtil.swift in Sources */,
 				8B0A30961F1DDA8B00AFCA01 /* main.swift in Sources */,
 				8B231B5E1F25A8930071E917 /* Dictionary.swift in Sources */,
+				8BCD8F401F28D05200AB5333 /* FileUtil.swift in Sources */,
 				8BADAEFF1F222D6900EDE5AB /* UserAgent.swift in Sources */,
 				8BA512A71F1E1112005D3A68 /* StringSpider.swift in Sources */,
 				8BA9781A1F24D7C700D14288 /* URLSessionTask.swift in Sources */,
