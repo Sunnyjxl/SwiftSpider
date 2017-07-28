@@ -20,12 +20,17 @@ class StringSpider: NSObject {
     ///   - timeout: 请求超时时间
     ///   - dataBlock: 数据回调block
     func getHtmlData(url: String, method: RequestMethot, headers: [String: String] = ["User-Agent": UserAgent.Firefox.rawValue], args: [String: String]?, timeout: TimeInterval = 5.0, dataBlock: @escaping ((_: Data?, _: URLResponse?, _: Error?) -> Void)) {
-        var requestUrl = url
+        var url = url
         // 如果是get方法则拼接参数到url后面
         if method == .get {
-            requestUrl = url.appending("?\(args?.toArgsString() ?? "")")
+            url = url.appending("?\(args?.toArgsString() ?? "")")
         }
-        var request = URLRequest(url: URL(string: requestUrl)!, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: timeout)
+        
+        guard let requestUrl = URL(string: url) else {
+            return
+        }
+        
+        var request = URLRequest(url: requestUrl, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: timeout)
         // post设置参数
         if method == .post {
             request.httpBody = args?.toArgsString().data(using: .utf8)

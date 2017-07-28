@@ -8,8 +8,16 @@
 
 import Foundation
 // 请求队列
-typealias Queue = Int
+public typealias Queue = Int
 
-let newQueue = 0
+public let newQueue: Queue = 0
+public let tempQueue: Queue = 1
 
-var requestQueue = [Queue]()
+public var requestQueue = [Queue]()
+
+public func starRequest() {
+//    print(requestQueue.count)
+    while requestQueue.count > 0 {
+        print(requestQueue.count)
+    }
+}

@@ -21,8 +21,6 @@ import Foundation
 
 let site = SiteSpider()
 
-site.getSiteData(url: "http://120.25.218.242:20001/zentao/www/user-login-L3plbnRhby93d3cvbXkuaHRtbA==.html", savePath: "/Users/developer/Desktop/bbb")
+site.getSiteData(url: "http://www.lanqiao.org", savePath: "/Users/developer/Desktop/bbb")
 
-while true {
-//    print(requestQueue.count)
-}
+starRequest()
