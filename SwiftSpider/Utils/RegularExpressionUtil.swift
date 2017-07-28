@@ -24,6 +24,7 @@ class RegularExpressionUtil: NSObject {
             return datas
         } catch {
             // 一般是正则表达式错误
+            print("123123")
             assertionFailure(error.localizedDescription)
             return nil
         }

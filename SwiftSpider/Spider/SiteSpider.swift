@@ -9,8 +9,14 @@
 import Cocoa
 
 class SiteSpider: NSObject {
-    private var urlArray = [String]()
+//    private var urlArray = [String]()
     
+    
+    /// 把指定页面的所有资源文件保存到本地
+    ///
+    /// - Parameters:
+    ///   - url: 页面URL
+    ///   - savePath: 保存路径
     func getSiteData(url: String, savePath: String) {
         let spider = StringSpider()
         
@@ -26,7 +32,12 @@ class SiteSpider: NSObject {
                 FileUtil.saveFile(path: "\(savePath)/\(response!.suggestedFilename ?? "index.html")", data: data)
                 
                 let text = String(data: data!, encoding: .utf8)
-                for var fileUrl in RegularExpressionUtil.matches(pattern: "(?<=(href|src)=\")[^#]\\S+?(?=\")|(?<=url\\()\\S+?(?=\\))", text: text!)! {
+                
+                guard text != nil else {
+                    return
+                }
+                
+                for var fileUrl in RegularExpressionUtil.matches(pattern: "(?<=(href|src)=(\"|'))[^#]\\S+?(?=(\"|'))|(?<=url\\(('?))\\S+?(?=('?)\\))", text: text!)! {
                     
                     if fileUrl.hasPrefix("./") {
                         fileUrl = fileUrl.substring(from: fileUrl.index(fileUrl.startIndex, offsetBy: 2))
@@ -39,41 +50,27 @@ class SiteSpider: NSObject {
                     } else if fileUrl.hasPrefix("https://") {
                         continue
                     }
-                    print(fileUrl)
-//                    print(fileUrl)
-                    let path = FileUtil.createFileDirectory(basePath: savePath, filePath: fileUrl)
                     
+                    print(fileUrl)
+                    
+                    // 获取文件保存路径
+                    let path = FileUtil.createFileDirectory(basePath: savePath, filePath: fileUrl)
                     var baseUrl: String = ""
                     for str in baseUrlArray {
                         baseUrl = baseUrl.appending("\(str)/")
-                        
                         spider.getHtmlData(url: baseUrl + fileUrl, method: .get, args: nil, dataBlock: { (data, response, error) in
                             if error == nil && self.checkResponse(with: response) {
-                                FileUtil.saveFile(path: "\(path)/\(response!.suggestedFilename!)", data: data)
+                                // 判断是否为css文件
                                 if response!.suggestedFilename!.hasSuffix(".css") {
                                     self.getSiteData(url: baseUrl + fileUrl, savePath: savePath)
+                                } else {
+                                    FileUtil.saveFile(path: "\(path)/\(response!.suggestedFilename!)", data: data)
                                 }
                             }
                         })
                     }
                 }
             }
-        }
-    }
-    
-    private func addUrlArray( url: String) {
-        var url = url
-       
-        if url.hasPrefix("./") {
-            url = url.substring(from: url.index(url.startIndex, offsetBy: 2))
-        } else if url.hasPrefix("../") {
-            url = FileUtil.jointDoublePointPath(url: url, filePath: url)
-        } else if url.hasPrefix("//") {
-            return
-        } else if url.hasPrefix("http://") {
-            return
-        } else if url.hasPrefix("https://") {
-            return
         }
     }
     
