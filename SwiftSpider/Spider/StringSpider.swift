@@ -25,7 +25,7 @@ class StringSpider: NSObject {
         if method == .get {
             url = url.appending("?\(args?.toArgsString() ?? "")")
         }
-        
+        // 判断url是否合法
         guard let requestUrl = URL(string: url) else {
             return
         }
@@ -44,6 +44,7 @@ class StringSpider: NSObject {
         
         let dataTask = URLSession.shared.dataTask(request: request) { (data, response, error) in
             dataBlock(data, response, error)
+            
         }
         
         dataTask.action()

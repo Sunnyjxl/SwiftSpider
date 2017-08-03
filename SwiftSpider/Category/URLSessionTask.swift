@@ -13,6 +13,6 @@ extension URLSessionTask {
     /// 扩展方法，在请求的时候往请求队列中添加一个元素
     func action() {
         resume()
-        requestQueue.append(newQueue)
+        RequestQueue.shared.mainQueue.append(newQueue)
     }
 }

@@ -9,7 +9,6 @@
 import Cocoa
 
 class SiteSpider: NSObject {
-//    private var urlArray = [String]()
     let spider = StringSpider()
     
     /// 把指定页面的所有资源文件保存到本地
@@ -22,7 +21,6 @@ class SiteSpider: NSObject {
         spider.getHtmlData(url: url, method: .get, args: nil) { [unowned self] (data, response, error) in
             // 分割爬取的URL
             let baseUrlArray = url.components(separatedBy: "/")
-
             if error == nil && self.checkResponse(with: response) {
                 // 判断保存的路径是否存在
                 FileUtil.createDirectory(path: savePath)
@@ -54,16 +52,13 @@ class SiteSpider: NSObject {
                     let filePath = FileUtil.createFileDirectory(basePath: savePath, filePath: fileUrl)
                     var baseUrl: String = ""
                     
-                    requestQueue.append(tempQueue)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10, execute: {
-                        requestQueue.removeLast()
-                    })
+                    RequestQueue.shared.tempQueue.append(newQueue)
                     
                     for str in baseUrlArray {
                         baseUrl = baseUrl.appending("\(str)/")
                         self.getResourcesFile(url: baseUrl + fileUrl, savePath: savePath, filePath: filePath)
                     }
+                    
                 }
             }
         }

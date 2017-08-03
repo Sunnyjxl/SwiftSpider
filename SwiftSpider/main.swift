@@ -8,19 +8,10 @@
 
 import Foundation
 
-//let str = StringSpider()
-
-//str.getHtmlData(url: "http://www.c-excellence.com/shcp_m/login.html#", method: .get, args: nil) { (data, _, error) in
-//    if error == nil {
-//        let text = String(data: data!, encoding: .utf8)
-//        for str in RegularExpressionUtil.matches(pattern: "(?<=(href|src)=\")[^#]\\S+?(?=\")", text: text!)! {
-//            print(str)
-//        }
-//    }
-//}
 
 let site = SiteSpider()
 
-site.getSiteData(url: "http://www.lanqiao.org", savePath: "/Users/developer/Desktop/bbb")
+site.getSiteData(url: "http://www.lanqiao.org", savePath: "/Users/developer/Desktop/aaa")
 
-starRequest()
+RequestQueue.shared.starRequest()
+//starRequest()

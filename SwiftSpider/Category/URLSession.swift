@@ -18,8 +18,9 @@ extension URLSession {
     /// - Returns: Task
     func dataTask(request: URLRequest, complete: @escaping ((_: Data?, _: URLResponse?, _: Error?) -> Void)) -> URLSessionTask {
         return dataTask(with: request, completionHandler: { (data, response, error) in
+            
             complete(data, response, error)
-            requestQueue.removeLast()
+            RequestQueue.shared.mainQueue.removeFirst()
         })
     }
 }
