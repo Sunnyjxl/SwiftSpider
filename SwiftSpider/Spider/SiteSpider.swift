@@ -32,7 +32,7 @@ class SiteSpider: NSObject {
                     return
                 }
                 
-                for var fileUrl in RegularExpressionUtil.matches(pattern: "(?<=(href|src)=(\"|'))[^#]\\S+?(?=(\"|'))|(?<=url\\()\\S+?(?=\\))", text: text)! {
+                for var fileUrl in RegularExpressionUtil.matches(pattern: RegularExpressionUtil.allURLExpression, text: text)! {
                     
                     if fileUrl.hasPrefix("./") {
                         fileUrl = fileUrl.substring(from: fileUrl.index(fileUrl.startIndex, offsetBy: 2))

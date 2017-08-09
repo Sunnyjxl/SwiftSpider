@@ -27,7 +27,7 @@ class Html: NSObject {
     /// - Returns: 每个指定class的所有元素
     func classEqualTo(_ className: String) -> [[String: String]]? {
         
-        guard let classElement = RegularExpressionUtil.matches(pattern: RegularExpressionUtil.expressionWithFindHtmlElement(mark: "class", condition: className), text: text!) else {
+        guard let classElement = RegularExpressionUtil.matches(pattern: RegularExpressionUtil.expressionWithFindHtmlSingleElement(mark: "class", condition: className), text: text!) else {
             return nil
         }
         
@@ -47,7 +47,7 @@ class Html: NSObject {
     /// - Returns: 指定id的所有元素
     func idEqualTo(_ idName: String) -> [String: String]? {
         
-        guard let idElement = RegularExpressionUtil.matches(pattern: RegularExpressionUtil.expressionWithFindHtmlElement(mark: "id", condition: idName), text: text!) else {
+        guard let idElement = RegularExpressionUtil.matches(pattern: RegularExpressionUtil.expressionWithFindHtmlSingleElement(mark: "id", condition: idName), text: text!) else {
             return nil
         }
         
