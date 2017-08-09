@@ -28,4 +28,14 @@ class RegularExpressionUtil: NSObject {
             return nil
         }
     }
+    
+    /// 根据要查找的html元素生成正则表达式
+    ///
+    /// - Parameters:
+    ///   - mark: 查找标志（id、class）
+    ///   - condition: 查找条件（id="xxxx"）
+    /// - Returns: 拼接好的正则表达式
+    static func expressionWithFindHtmlElement(mark: String, condition: String) -> String {
+        return "<.*?\(mark).*?=.*?\"\(condition)\".*?>"
+    }
 }
