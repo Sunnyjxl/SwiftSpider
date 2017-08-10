@@ -21,41 +21,45 @@ class Html: NSObject {
         self.text = text
     }
     
-    /// 根据html的class查找对应的元素
+    /// 根据html的class查找对应的元素（单行<input xxxx />）
     ///
     /// - Parameter className: class名称
     /// - Returns: 每个指定class的所有元素
     func classEqualTo(_ className: String) -> [[String: String]]? {
-        
         guard let classElement = RegularExpressionUtil.matches(pattern: RegularExpressionUtil.expressionWithFindHtmlSingleElement(mark: "class", condition: className), text: text!) else {
             return nil
         }
-        
         var result = [[String: String]]()
-        
+        // class可有多个
         for element in classElement {
             result.append(analysisElement(element: element))
         }
-        
         return result
     }
     
-    
-    /// 根据html的id查找对应元素
+    /// 根据html的id查找对应元素（单行<input xxxx />）
     ///
     /// - Parameter idName: id名称
     /// - Returns: 指定id的所有元素
     func idEqualTo(_ idName: String) -> [String: String]? {
-        
         guard let idElement = RegularExpressionUtil.matches(pattern: RegularExpressionUtil.expressionWithFindHtmlSingleElement(mark: "id", condition: idName), text: text!) else {
             return nil
         }
-        
-        let result = analysisElement(element: idElement[0])
-        
-        return result
+        return analysisElement(element: idElement[0])
     }
     
+    /// 根据标签查找多行元素（<div xxxx>xxxx</div>）
+    ///
+    /// - Parameters:
+    ///   - tagName: 标签名字
+    ///   - mark: id或class
+    ///   - condition: id或class的名称
+    func tagEqualTo(_ tagName: String, mark: String?, condition: String?) -> [[String: [String: String]]]? {
+        guard let tagElement = RegularExpressionUtil.matches(pattern: RegularExpressionUtil.expressionWithFindHtmlMoreElement(tagName: tagName, mark: mark, condition: condition), text: text!) else {
+            return nil
+        }
+        return analysisTagElement(tagElement: tagElement[0])
+    }
     
     /// 把正则表达式截取的标签解析成字典
     ///
@@ -67,7 +71,7 @@ class Html: NSObject {
         var valueFlag = false
         // 标记是否需要清空key的值
         var canClear = false
-        // 记录双引号的数量
+        // 记录引号的数量
         var symbolCount = 0
         var key = ""
         var value = ""
@@ -97,16 +101,78 @@ class Html: NSObject {
             default:
                 if valueFlag {
                     value.append(str)
-                    
                 } else {
                     key.append(str)
                     canClear = true
                 }
-                
-                break
             }
         }
+        return result
+    }
+    
+    
+    /// 把多行的元素解析成数组+字典
+    ///
+    /// - Parameter tagElement: html元素
+    /// - Returns: 数组+字典
+    private func analysisTagElement(tagElement: String) -> [[String: [String: String]]] {
+        var index = -1
+        var valueFlag = false
+        var nameFlag = false
+        var canClear = false
+        // 每行标签名称
+        var name = ""
+        var key = ""
+        var value = ""
+        // 记录引号的数量
+        var symbolCount = 0
+        var result = [[String: [String: String]]]()
         
+        for str in tagElement.characters {
+            switch str {
+            case "\"", "'":
+                symbolCount += 1
+                valueFlag = true
+                if symbolCount >= 2 {
+                    valueFlag = false
+                    symbolCount = 0
+                    if result.count <= index {
+                        result.append([name: [String: String]()])
+                    }
+                    result[index][name]?[key] = value
+                    key = ""
+                    value = ""
+                }
+            case "<", "/":
+                nameFlag = str == "/" ? false : true
+                valueFlag = false
+                if value.characters.count > 0 {
+                    result[index][name]?["space"] = value
+                }
+                name = ""
+            case "=", ">":
+                valueFlag = true
+                canClear = str == "=" ? false : canClear
+            case " ":
+                nameFlag = name.characters.count > 0 ? false : true
+                value = !valueFlag ? "" : value
+                key = canClear ? "" : key
+            case "\n", "\r\n", "\t":
+                name = str == "\t" ? name : ""
+                key = str == "\t" ? name : ""
+                value = str == "\t" ? name : ""
+            default:
+                if nameFlag {
+                    index += name.characters.count == 0 ? 1 : 0
+                    name.append(str)
+                } else if valueFlag {
+                    value.append(str)
+                } else {
+                    key.append(str)
+                    canClear = true
+                }
+            }
+        }
         return result
     }
 }

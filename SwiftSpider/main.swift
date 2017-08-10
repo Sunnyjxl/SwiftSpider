@@ -11,9 +11,11 @@ import Foundation
 let site = SiteSpider()
 let string = StringSpider()
 
-string.getHtmlData(url: "http://www.c-excellence.com/shcp_m/login.html#?aaa=1", method: .get, args: nil) { (data, response, error) in
+string.getHtmlData(url: "http://www.lanqiao.org/#page1", method: .get, args: nil) { (data, response, error) in
+//    print(response!.textEncodingName)
     let html = Html(data: data!)
-    print(html.classEqualTo("zhuce")!)
+//    print(html.text!)
+    print(html.tagEqualTo("div", mark: "class", condition: "links"))
 }
 //site.getSiteData(url: "http://www.lanqiao.org", savePath: "/Users/developer/Desktop/aaa")
 

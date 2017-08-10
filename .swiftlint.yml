@@ -12,3 +12,6 @@ excluded: # 你所希望不要检索的路径,SwiftLint会无视掉该路径下�
 function_body_length:
   - 200
   - 300
+cyclomatic_complexity:
+  - 15
+  - 20

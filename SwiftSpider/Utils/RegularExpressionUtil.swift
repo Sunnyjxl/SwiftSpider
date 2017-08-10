@@ -57,7 +57,7 @@ class RegularExpressionUtil: NSObject {
     /// - Returns: 拼接好的正则表达式
     static func expressionWithFindHtmlMoreElement(tagName: String, mark: String?, condition: String?) -> String {
         if mark == nil {
-            return "<\\s*\(tagName)([\\s\\S])*(</\(tagName)>|/>)"
+            return "<\\s*\(tagName)([\\s\\S])*?(</\(tagName)>|/>)"
         }
         return "<\\s*\(tagName).*?\(mark!)=\"\(condition!)\"([\\s\\S])*?(</\(tagName)>|/>)"
     }

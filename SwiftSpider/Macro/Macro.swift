@@ -12,3 +12,6 @@ enum RequestMethot: Int {
     case post = 0
     case get = 1
 }
+
+// GBK编码
+let gbk = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(UInt32(CFStringEncodings.GB_18030_2000.rawValue)))
