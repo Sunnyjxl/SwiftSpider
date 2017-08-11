@@ -58,6 +58,7 @@ class Html: NSObject {
         guard let tagElement = RegularExpressionUtil.matches(pattern: RegularExpressionUtil.expressionWithFindHtmlMoreElement(tagName: tagName, mark: mark, condition: condition), text: text!) else {
             return nil
         }
+        print(tagElement[0])
         return analysisTagElement(tagElement: tagElement[0])
     }
     
@@ -117,6 +118,7 @@ class Html: NSObject {
     /// - Returns: 数组+字典
     private func analysisTagElement(tagElement: String) -> [[String: [String: String]]] {
         var index = -1
+        var urlFlag = false
         var valueFlag = false
         var nameFlag = false
         var canClear = false
@@ -127,7 +129,6 @@ class Html: NSObject {
         // 记录引号的数量
         var symbolCount = 0
         var result = [[String: [String: String]]]()
-        
         for str in tagElement.characters {
             switch str {
             case "\"", "'":
@@ -143,8 +144,8 @@ class Html: NSObject {
                     key = ""
                     value = ""
                 }
-            case "<", "/":
-                nameFlag = str == "/" ? false : true
+            case "<":
+                nameFlag = true
                 valueFlag = false
                 if value.characters.count > 0 {
                     result[index][name]?["space"] = value
@@ -163,6 +164,10 @@ class Html: NSObject {
                 value = str == "\t" ? name : ""
             default:
                 if nameFlag {
+                    if str == "/" {
+                        nameFlag = false
+                        break
+                    }
                     index += name.characters.count == 0 ? 1 : 0
                     name.append(str)
                 } else if valueFlag {
