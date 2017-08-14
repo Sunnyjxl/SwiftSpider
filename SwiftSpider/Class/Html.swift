@@ -58,7 +58,7 @@ class Html: NSObject {
         guard let tagElement = RegularExpressionUtil.matches(pattern: RegularExpressionUtil.expressionWithFindHtmlMoreElement(tagName: tagName, mark: mark, condition: condition), text: text!) else {
             return nil
         }
-        print(tagElement[0])
+//        print(tagElement[0])
         return analysisTagElement(tagElement: tagElement[0])
     }
     
@@ -111,14 +111,12 @@ class Html: NSObject {
         return result
     }
     
-    
     /// 把多行的元素解析成数组+字典
     ///
     /// - Parameter tagElement: html元素
     /// - Returns: 数组+字典
     private func analysisTagElement(tagElement: String) -> [[String: [String: String]]] {
         var index = -1
-        var urlFlag = false
         var valueFlag = false
         var nameFlag = false
         var canClear = false
@@ -140,6 +138,7 @@ class Html: NSObject {
                     if result.count <= index {
                         result.append([name: [String: String]()])
                     }
+                    index = index >= result.count ? result.count - 1 : index
                     result[index][name]?[key] = value
                     key = ""
                     value = ""
@@ -148,7 +147,9 @@ class Html: NSObject {
                 nameFlag = true
                 valueFlag = false
                 if value.characters.count > 0 {
-                    result[index][name]?["space"] = value
+                    // 添加标签之间的内容<xxx>space</xxx>
+                    index = index >= result.count ? result.count - 1 : index
+                    result[index][result[index].first!.key]?["space"] = value
                 }
                 name = ""
             case "=", ">":
@@ -164,12 +165,12 @@ class Html: NSObject {
                 value = str == "\t" ? name : ""
             default:
                 if nameFlag {
-                    if str == "/" {
+                    if str == "/" || str == "!" {
                         nameFlag = false
-                        break
+                    } else {
+                        index += name.characters.count == 0 ? 1 : 0
+                        name.append(str)
                     }
-                    index += name.characters.count == 0 ? 1 : 0
-                    name.append(str)
                 } else if valueFlag {
                     value.append(str)
                 } else {
