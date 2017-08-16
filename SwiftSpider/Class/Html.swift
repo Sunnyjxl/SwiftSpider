@@ -54,12 +54,16 @@ class Html: NSObject {
     ///   - tagName: 标签名字
     ///   - mark: id或class
     ///   - condition: id或class的名称
-    func tagEqualTo(_ tagName: String, mark: String?, condition: String?) -> [[String: [String: String]]]? {
+    func tagEqualTo(_ tagName: String, mark: String?, condition: String?) -> [[[String: [String: String]]]]? {
         guard let tagElement = RegularExpressionUtil.matches(pattern: RegularExpressionUtil.expressionWithFindHtmlMoreElement(tagName: tagName, mark: mark, condition: condition), text: text!) else {
             return nil
         }
-//        print(tagElement[0])
-        return analysisTagElement(tagElement: tagElement[0])
+        var result = [[[String: [String: String]]]]()
+        for element in tagElement {
+            result.append(analysisTagElement(tagElement: element))
+        }
+        
+        return result
     }
     
     /// 把正则表达式截取的标签解析成字典
@@ -95,7 +99,6 @@ class Html: NSObject {
                 if canClear {
                     key = ""
                 }
-                
             case "=":
                 valueFlag = true
                 canClear = false
@@ -117,6 +120,8 @@ class Html: NSObject {
     /// - Returns: 数组+字典
     private func analysisTagElement(tagElement: String) -> [[String: [String: String]]] {
         var index = -1
+        // 记录匹配到 >
+        var endFlag = false
         var valueFlag = false
         var nameFlag = false
         var canClear = false
@@ -146,6 +151,7 @@ class Html: NSObject {
             case "<":
                 nameFlag = true
                 valueFlag = false
+                endFlag = true
                 if value.characters.count > 0 {
                     // 添加标签之间的内容<xxx>space</xxx>
                     index = index >= result.count ? result.count - 1 : index
@@ -154,15 +160,16 @@ class Html: NSObject {
                 name = ""
             case "=", ">":
                 valueFlag = true
+                endFlag = str == ">" ? true : false
                 canClear = str == "=" ? false : canClear
             case " ":
-                nameFlag = name.characters.count > 0 ? false : true
+                nameFlag = name.characters.count > 0 || endFlag ? false : true
                 value = !valueFlag ? "" : value
                 key = canClear ? "" : key
             case "\n", "\r\n", "\t":
                 name = str == "\t" ? name : ""
-                key = str == "\t" ? name : ""
-                value = str == "\t" ? name : ""
+                key = str == "\t" ? key : ""
+                value = str == "\t" || (endFlag && valueFlag) ? value : ""
             default:
                 if nameFlag {
                     if str == "/" || str == "!" {

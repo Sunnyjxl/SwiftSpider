@@ -14,10 +14,12 @@ let string = StringSpider()
 string.getHtmlData(url: "http://www.lanqiao.org", method: .get, args: nil) { (data, response, error) in
 //    print(response!.textEncodingName)
     let html = Html(data: data!)
+    print(html.text!)
 //    print(html.text!)
-    print(html.tagEqualTo("div", mark: "class", condition: "down-links")!)
+//    print(html.tagEqualTo("div", mark: "class", condition: "down-links")!)
+//    print(html.text!)
+    print(html.tagEqualTo("video", mark: "id", condition: "mainVideoi")!)
 //    print(html.classEqualTo("tijiao")!)
 }
-//site.getSiteData(url: "http://www.lanqiao.org", savePath: "/Users/developer/Desktop/aaa")
 
 RequestQueue.shared.starRequest()

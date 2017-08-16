@@ -25,7 +25,6 @@ class FileUtil: NSObject {
         return fatherDirectory
     }
     
-    
     /// 根据爬取的URL拼接包含../的路径
     ///
     /// - Parameters:
@@ -46,28 +45,21 @@ class FileUtil: NSObject {
     /// - Returns: 创建好的文件路径不包括文件名 (/User/apple/Desktop/Test/upload)
     static func createFileDirectory(basePath: String, filePath: String) -> String {
         let splitFilePath = filePath.components(separatedBy: "/")
-        
         if splitFilePath.count > 1 {
             var path = ""
             for index in 0..<splitFilePath.count-1 {
                 path = path.appending(splitFilePath[index] + "/")
             }
-            
             // 判断路径是否以 / 结尾
             if basePath.hasSuffix("/") {
-                
                 if !FileManager.default.fileExists(atPath: basePath + path) {
                     try? FileManager.default.createDirectory(atPath: basePath + path, withIntermediateDirectories: true, attributes: nil)
                 }
-                
                 return basePath + path
-                
             } else {
-                
                 if !FileManager.default.fileExists(atPath: basePath + "/" + path) {
                     try? FileManager.default.createDirectory(atPath: basePath + "/" + path, withIntermediateDirectories: true, attributes: nil)
                 }
-                
                 return basePath + "/" + path
             }
         }
